@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 🔐 VaultKey - Comprehensive Password Manager
 
 Welcome to **VaultKey** - Your secure, modern password manager web application!
@@ -248,3 +249,7 @@ For production deployment, additional security measures may be recommended.
 **[→ Start with QUICK_START.md](./QUICK_START.md)** and be managing passwords in minutes!
 
 **Version 1.0.0** | **Status: Production Ready** | **Updated: January 18, 2026**
+=======
+# react-password-generator
+A Password Generator web app that helps users create strong and secure passwords instantly. Users can customize password length and include uppercase letters, lowercase letters, numbers, and special characters. Built to enhance security and reduce the risk of weak or reused passwords.
+>>>>>>> 13ca333a936350c5ce776771d68bce22dcaaa799
