@@ -53,7 +53,7 @@ export const SettingsPanel = ({ isOpen, onClose }) => {
       const data = exportData();
       const element = document.createElement('a');
       element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(data));
-      element.setAttribute('download', `vaultkey-backup-${new Date().toISOString().split('T')[0]}.json`);
+      element.setAttribute('download', `passkey-backup-${new Date().toISOString().split('T')[0]}.json`);
       element.style.display = 'none';
       document.body.appendChild(element);
       element.click();
@@ -89,16 +89,16 @@ export const SettingsPanel = ({ isOpen, onClose }) => {
   return (
     <div className="fixed inset-0 z-40 flex items-center justify-center p-4">
       {/* Backdrop */}
-      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
+      <div className="absolute inset-0 bg-black/60 backdrop-blur-md" onClick={onClose} />
 
       {/* Panel */}
-      <div className="relative w-full max-w-lg bg-gray-900 border border-white/10 rounded-2xl shadow-2xl max-h-[90vh] overflow-y-auto animate-slide-up">
+      <div className="relative w-full max-w-lg bg-gradient-to-br from-slate-900/95 to-slate-800/95 border border-white/20 rounded-3xl shadow-2xl max-h-[90vh] overflow-y-auto backdrop-blur-xl">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-white/10 sticky top-0 bg-gray-900">
-          <h2 className="text-2xl font-bold text-white">Settings</h2>
+        <div className="flex items-center justify-between p-6 border-b border-white/10 sticky top-0 bg-gradient-to-r from-purple-500/10 to-blue-500/10">
+          <h2 className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">Settings</h2>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-white transition-colors"
+            className="text-gray-400 hover:text-white transition-colors p-1 hover:bg-white/10 rounded-lg"
           >
             <X className="w-6 h-6" />
           </button>
@@ -108,32 +108,32 @@ export const SettingsPanel = ({ isOpen, onClose }) => {
         <div className="p-6 space-y-8">
           {/* Theme */}
           <section>
-            <h3 className="text-lg font-semibold text-white mb-4">Appearance</h3>
-            <label className="flex items-center gap-3 cursor-pointer">
+            <h3 className="text-lg font-bold text-white mb-4">Appearance</h3>
+            <label className="flex items-center gap-3 cursor-pointer p-3 rounded-xl hover:bg-white/5 transition-colors">
               <div className="relative">
                 <input
                   type="checkbox"
                   checked={darkMode}
                   onChange={(e) => setDarkMode(e.target.checked)}
-                  className="w-5 h-5 rounded border-gray-400 text-blue-500 cursor-pointer"
+                  className="w-5 h-5 rounded border-purple-400 text-purple-500 cursor-pointer"
                 />
               </div>
-              <span className="text-white">Dark Mode</span>
+              <span className="text-white font-medium">Dark Mode</span>
             </label>
-            <p className="text-sm text-gray-400 mt-2">
+            <p className="text-sm text-gray-400 mt-2 ml-8">
               {darkMode ? 'Dark mode is currently enabled' : 'Dark mode is currently disabled'}
             </p>
           </section>
 
           {/* Auto-lock */}
           <section>
-            <h3 className="text-lg font-semibold text-white mb-4">Security</h3>
-            <div>
-              <div className="flex items-center justify-between mb-2">
-                <label className="text-sm font-medium text-gray-300">
+            <h3 className="text-lg font-bold text-white mb-4">Security</h3>
+            <div className="bg-white/5 border border-white/10 rounded-xl p-4">
+              <div className="flex items-center justify-between mb-3">
+                <label className="text-sm font-semibold text-gray-300">
                   Auto-lock after inactivity
                 </label>
-                <span className="text-lg font-bold text-blue-400">{autoLockTime} min</span>
+                <span className="text-lg font-bold text-purple-400">{autoLockTime} min</span>
               </div>
               <input
                 type="range"
@@ -142,9 +142,9 @@ export const SettingsPanel = ({ isOpen, onClose }) => {
                 step="5"
                 value={autoLockTime}
                 onChange={(e) => setAutoLockTime(parseInt(e.target.value))}
-                className="w-full h-2 bg-white/10 rounded-lg appearance-none cursor-pointer accent-blue-500"
+                className="w-full h-2 bg-white/10 rounded-lg appearance-none cursor-pointer accent-purple-500"
               />
-              <div className="flex justify-between text-xs text-gray-400 mt-1">
+              <div className="flex justify-between text-xs text-gray-400 mt-2">
                 <span>5 min</span>
                 <span>60 min</span>
               </div>
@@ -153,7 +153,7 @@ export const SettingsPanel = ({ isOpen, onClose }) => {
 
           {/* Change Master Password */}
           <section>
-            <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+            <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
               <Lock className="w-5 h-5" />
               Master Password
             </h3>
@@ -161,54 +161,54 @@ export const SettingsPanel = ({ isOpen, onClose }) => {
             {!showChangeMaster ? (
               <button
                 onClick={() => setShowChangeMaster(true)}
-                className="w-full py-2 bg-orange-500/20 hover:bg-orange-500/30 text-orange-300 rounded-lg font-medium transition-colors"
+                className="w-full py-3 bg-gradient-to-r from-orange-500/40 to-amber-500/40 hover:from-orange-500/60 hover:to-amber-500/60 text-orange-300 rounded-xl font-semibold transition-all border border-orange-500/30"
               >
                 Change Master Password
               </button>
             ) : (
-              <div className="space-y-3 bg-white/5 p-4 rounded-lg border border-white/10">
+              <div className="space-y-3 bg-white/5 border border-white/10 p-4 rounded-xl">
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-1">
+                  <label className="block text-sm font-semibold text-gray-300 mb-2">
                     Current Master Password
                   </label>
                   <input
                     type="password"
                     value={currentPassword}
                     onChange={(e) => setCurrentPassword(e.target.value)}
-                    className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-blue-400 transition-colors"
+                    className="w-full px-4 py-2.5 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-400/50 transition-all"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-1">
+                  <label className="block text-sm font-semibold text-gray-300 mb-2">
                     New Master Password
                   </label>
                   <input
                     type="password"
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
-                    className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-blue-400 transition-colors"
+                    className="w-full px-4 py-2.5 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-400/50 transition-all"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-1">
+                  <label className="block text-sm font-semibold text-gray-300 mb-2">
                     Confirm New Password
                   </label>
                   <input
                     type="password"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
-                    className={`w-full px-3 py-2 bg-white/5 border rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-blue-400 transition-colors ${
-                      errors.confirmPassword ? 'border-red-500' : 'border-white/10'
+                    className={`w-full px-4 py-2.5 bg-white/10 border rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-400/50 transition-all ${
+                      errors.confirmPassword ? 'border-red-500' : 'border-white/20'
                     }`}
                   />
                   {errors.confirmPassword && (
-                    <p className="text-red-400 text-xs mt-1">{errors.confirmPassword}</p>
+                    <p className="text-red-400 text-xs mt-2">{errors.confirmPassword}</p>
                   )}
                 </div>
 
-                <div className="flex gap-2">
+                <div className="flex gap-2 pt-2">
                   <button
                     onClick={() => {
                       setShowChangeMaster(false);
@@ -217,13 +217,13 @@ export const SettingsPanel = ({ isOpen, onClose }) => {
                       setConfirmPassword('');
                       setErrors({});
                     }}
-                    className="flex-1 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg text-sm font-medium transition-colors"
+                    className="flex-1 py-2.5 bg-white/10 hover:bg-white/20 text-white rounded-lg text-sm font-semibold transition-all border border-white/20"
                   >
                     Cancel
                   </button>
                   <button
                     onClick={handleChangeMasterPassword}
-                    className="flex-1 py-2 bg-orange-500/20 hover:bg-orange-500/30 text-orange-300 rounded-lg text-sm font-medium transition-colors"
+                    className="flex-1 py-2.5 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white rounded-lg text-sm font-semibold transition-all"
                   >
                     Update
                   </button>
@@ -234,11 +234,11 @@ export const SettingsPanel = ({ isOpen, onClose }) => {
 
           {/* Import/Export */}
           <section>
-            <h3 className="text-lg font-semibold text-white mb-4">Backup & Restore</h3>
+            <h3 className="text-lg font-bold text-white mb-4">Backup & Restore</h3>
             <div className="space-y-3">
               <button
                 onClick={handleExport}
-                className="w-full py-3 bg-green-500/20 hover:bg-green-500/30 text-green-300 rounded-lg font-medium transition-colors flex items-center justify-center gap-2"
+                className="w-full py-3 bg-gradient-to-r from-green-500/40 to-emerald-500/40 hover:from-green-500/60 hover:to-emerald-500/60 text-green-300 rounded-xl font-semibold transition-all flex items-center justify-center gap-2 border border-green-500/30"
               >
                 <Download className="w-5 h-5" />
                 Export Encrypted Backup
@@ -251,13 +251,13 @@ export const SettingsPanel = ({ isOpen, onClose }) => {
                   onChange={handleImport}
                   className="hidden"
                 />
-                <div className="py-3 bg-blue-500/20 hover:bg-blue-500/30 text-blue-300 rounded-lg font-medium transition-colors flex items-center justify-center gap-2">
+                <div className="py-3 bg-gradient-to-r from-cyan-500/40 to-blue-500/40 hover:from-cyan-500/60 hover:to-blue-500/60 text-cyan-300 rounded-xl font-semibold transition-all flex items-center justify-center gap-2 border border-cyan-500/30">
                   <Upload className="w-5 h-5" />
                   Import Backup
                 </div>
               </label>
 
-              <div className="flex items-start gap-2 text-xs text-orange-300 bg-orange-500/10 p-3 rounded-lg border border-orange-500/20">
+              <div className="flex items-start gap-3 text-xs text-amber-300 bg-amber-500/15 p-4 rounded-xl border border-amber-500/30">
                 <AlertCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
                 <p>
                   Backups are encrypted using your master password. Keep them safe and never share them.
@@ -267,16 +267,16 @@ export const SettingsPanel = ({ isOpen, onClose }) => {
           </section>
 
           {/* Info */}
-          <section className="bg-blue-500/10 p-4 rounded-lg border border-blue-500/20">
+          <section className="bg-gradient-to-r from-cyan-500/15 to-blue-500/15 p-4 rounded-xl border border-cyan-500/30">
             <div className="flex items-start gap-3">
-              <CheckCircle2 className="w-5 h-5 text-blue-400 mt-0.5 flex-shrink-0" />
-              <div className="text-sm text-blue-200">
-                <p className="font-semibold mb-1">Privacy & Security</p>
-                <ul className="space-y-1 text-xs opacity-90">
-                  <li>• All data is encrypted locally</li>
-                  <li>• Nothing is sent to any server</li>
-                  <li>• Passwords are never stored in plain text</li>
-                  <li>• Data exists only in your browser memory</li>
+              <CheckCircle2 className="w-5 h-5 text-cyan-400 mt-0.5 flex-shrink-0" />
+              <div className="text-sm text-cyan-200">
+                <p className="font-semibold mb-2">Privacy & Security</p>
+                <ul className="space-y-1.5 text-xs opacity-90">
+                  <li>✓ All data is encrypted locally</li>
+                  <li>✓ Nothing is sent to any server</li>
+                  <li>✓ Passwords are never stored in plain text</li>
+                  <li>✓ Data exists only in your browser memory</li>
                 </ul>
               </div>
             </div>

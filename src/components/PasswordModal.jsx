@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { X, Eye, EyeOff, AlertCircle } from 'lucide-react';
 import { calculatePasswordStrength, validatePasswordEntry } from '../utils/encryption';
 import { useToast } from '../context/ToastContext';
+import { CategoryIcon } from '../utils/categoryIcons';
 
-const CATEGORIES = ['Social Media', 'Banking', 'Email', 'Shopping', 'Work', 'Personal', 'Other'];
+const CATEGORIES = ['Social Media', 'Email', 'Banking', 'Finance', 'Work', 'Office', 'Shopping', 'Personal', 'Other'];
 
 export const PasswordModal = ({ isOpen, onClose, onSubmit, editingEntry }) => {
   const [formData, setFormData] = useState({
@@ -81,28 +82,28 @@ export const PasswordModal = ({ isOpen, onClose, onSubmit, editingEntry }) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* Backdrop */}
-      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
+      <div className="absolute inset-0 bg-black/60 backdrop-blur-md" onClick={onClose} />
 
       {/* Modal */}
-      <div className="relative w-full max-w-md bg-gray-900 border border-white/10 rounded-2xl shadow-2xl animate-slide-up">
+      <div className="relative w-full max-w-md bg-gradient-to-br from-slate-900/95 to-slate-800/95 border border-white/20 rounded-3xl shadow-2xl backdrop-blur-xl">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-white/10">
-          <h2 className="text-xl font-bold text-white">
+        <div className="flex items-center justify-between p-6 border-b border-white/10 bg-gradient-to-r from-purple-500/10 to-blue-500/10">
+          <h2 className="text-xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
             {editingEntry ? 'Edit Password' : 'Add New Password'}
           </h2>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-white transition-colors"
+            className="text-gray-400 hover:text-white transition-colors p-1 hover:bg-white/10 rounded-lg"
           >
             <X className="w-6 h-6" />
           </button>
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="p-6 space-y-4 max-h-[80vh] overflow-y-auto">
+        <form onSubmit={handleSubmit} className="p-6 space-y-5 max-h-[80vh] overflow-y-auto">
           {/* Platform */}
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-1">
+            <label className="block text-sm font-semibold text-gray-300 mb-2">
               Platform Name <span className="text-red-400">*</span>
             </label>
             <input
@@ -111,28 +112,31 @@ export const PasswordModal = ({ isOpen, onClose, onSubmit, editingEntry }) => {
               value={formData.platform}
               onChange={handleChange}
               placeholder="e.g., Gmail, Twitter, Amazon"
-              className={`w-full px-3 py-2 bg-white/5 border rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-400 transition-colors ${
-                errors.platform ? 'border-red-500' : 'border-white/10'
+              className={`w-full px-4 py-2.5 bg-white/10 border rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-400/50 transition-all ${
+                errors.platform ? 'border-red-500' : 'border-white/20'
               }`}
             />
             {errors.platform && (
-              <p className="text-red-400 text-xs mt-1">{errors.platform}</p>
+              <p className="text-red-400 text-xs mt-2 flex items-center gap-1"><AlertCircle className="w-3 h-3" /> {errors.platform}</p>
             )}
           </div>
 
           {/* Category */}
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-1">
+            <label className="block text-sm font-semibold text-gray-300 mb-2">
               Category
             </label>
+            <div className="flex items-center gap-2 mb-2">
+              <CategoryIcon category={formData.category} size="sm" />
+            </div>
             <select
               name="category"
               value={formData.category}
               onChange={handleChange}
-              className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-400 transition-colors"
+              className="w-full px-4 py-2.5 bg-white/10 border border-white/20 rounded-xl text-white focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-400/50 transition-all"
             >
               {CATEGORIES.map(cat => (
-                <option key={cat} value={cat} className="bg-gray-900">
+                <option key={cat} value={cat} className="bg-slate-900">
                   {cat}
                 </option>
               ))}
@@ -141,7 +145,7 @@ export const PasswordModal = ({ isOpen, onClose, onSubmit, editingEntry }) => {
 
           {/* Username */}
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-1">
+            <label className="block text-sm font-semibold text-gray-300 mb-2">
               Username / Email <span className="text-red-400">*</span>
             </label>
             <input
@@ -150,27 +154,27 @@ export const PasswordModal = ({ isOpen, onClose, onSubmit, editingEntry }) => {
               value={formData.username}
               onChange={handleChange}
               placeholder="e.g., user@example.com"
-              className={`w-full px-3 py-2 bg-white/5 border rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-400 transition-colors ${
-                errors.username ? 'border-red-500' : 'border-white/10'
+              className={`w-full px-4 py-2.5 bg-white/10 border rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-400/50 transition-all ${
+                errors.username ? 'border-red-500' : 'border-white/20'
               }`}
             />
             {errors.username && (
-              <p className="text-red-400 text-xs mt-1">{errors.username}</p>
+              <p className="text-red-400 text-xs mt-2 flex items-center gap-1"><AlertCircle className="w-3 h-3" /> {errors.username}</p>
             )}
           </div>
 
           {/* Password */}
           <div>
-            <div className="flex items-center justify-between mb-1">
-              <label className="block text-sm font-medium text-gray-300">
+            <div className="flex items-center justify-between mb-2">
+              <label className="block text-sm font-semibold text-gray-300">
                 Password <span className="text-red-400">*</span>
               </label>
               {formData.password && (
-                <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${
-                  passwordStrength.color === 'red' ? 'bg-red-500/30 text-red-200' :
-                  passwordStrength.color === 'yellow' ? 'bg-yellow-500/30 text-yellow-200' :
-                  passwordStrength.color === 'blue' ? 'bg-blue-500/30 text-blue-200' :
-                  'bg-green-500/30 text-green-200'
+                <span className={`text-xs font-bold px-3 py-1 rounded-full ${
+                  passwordStrength.color === 'red' ? 'bg-red-500/40 text-red-200' :
+                  passwordStrength.color === 'yellow' ? 'bg-yellow-500/40 text-yellow-200' :
+                  passwordStrength.color === 'blue' ? 'bg-blue-500/40 text-blue-200' :
+                  'bg-green-500/40 text-green-200'
                 }`}>
                   {passwordStrength.label}
                 </span>
@@ -183,8 +187,8 @@ export const PasswordModal = ({ isOpen, onClose, onSubmit, editingEntry }) => {
                 value={formData.password}
                 onChange={handleChange}
                 placeholder="Enter password"
-                className={`w-full px-3 py-2 bg-white/5 border rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-400 transition-colors pr-10 ${
-                  errors.password ? 'border-red-500' : 'border-white/10'
+                className={`w-full px-4 py-2.5 bg-white/10 border rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-400/50 transition-all pr-10 ${
+                  errors.password ? 'border-red-500' : 'border-white/20'
                 }`}
               />
               <button
@@ -200,13 +204,13 @@ export const PasswordModal = ({ isOpen, onClose, onSubmit, editingEntry }) => {
               </button>
             </div>
             {errors.password && (
-              <p className="text-red-400 text-xs mt-1">{errors.password}</p>
+              <p className="text-red-400 text-xs mt-2 flex items-center gap-1"><AlertCircle className="w-3 h-3" /> {errors.password}</p>
             )}
           </div>
 
           {/* URL */}
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-1">
+            <label className="block text-sm font-semibold text-gray-300 mb-2">
               Website URL (Optional)
             </label>
             <input
@@ -215,18 +219,18 @@ export const PasswordModal = ({ isOpen, onClose, onSubmit, editingEntry }) => {
               value={formData.url}
               onChange={handleChange}
               placeholder="e.g., https://www.example.com"
-              className={`w-full px-3 py-2 bg-white/5 border rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-400 transition-colors ${
-                errors.url ? 'border-red-500' : 'border-white/10'
+              className={`w-full px-4 py-2.5 bg-white/10 border rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-400/50 transition-all ${
+                errors.url ? 'border-red-500' : 'border-white/20'
               }`}
             />
             {errors.url && (
-              <p className="text-red-400 text-xs mt-1">{errors.url}</p>
+              <p className="text-red-400 text-xs mt-2 flex items-center gap-1"><AlertCircle className="w-3 h-3" /> {errors.url}</p>
             )}
           </div>
 
           {/* Notes */}
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-1">
+            <label className="block text-sm font-semibold text-gray-300 mb-2">
               Notes (Optional)
             </label>
             <textarea
@@ -235,14 +239,14 @@ export const PasswordModal = ({ isOpen, onClose, onSubmit, editingEntry }) => {
               onChange={handleChange}
               placeholder="Security question answer, account recovery info, etc."
               rows="3"
-              className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-400 transition-colors resize-none"
+              className="w-full px-4 py-2.5 bg-white/10 border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-purple-400 focus:ring-2 focus:ring-purple-400/50 transition-all resize-none"
             />
           </div>
 
           {/* Info */}
-          <div className="flex items-start gap-2 text-xs text-blue-300 bg-blue-500/10 p-3 rounded-lg border border-blue-500/20">
+          <div className="flex items-start gap-3 text-xs text-cyan-300 bg-cyan-500/15 p-4 rounded-xl border border-cyan-500/30">
             <AlertCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
-            <p>Password will be encrypted before storage</p>
+            <p>All passwords are encrypted end-to-end with military-grade security</p>
           </div>
 
           {/* Actions */}
@@ -250,14 +254,14 @@ export const PasswordModal = ({ isOpen, onClose, onSubmit, editingEntry }) => {
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg font-medium transition-colors"
+              className="flex-1 py-2.5 bg-white/10 hover:bg-white/20 text-white rounded-xl font-semibold transition-all border border-white/20"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={isSubmitting}
-              className="flex-1 py-2 bg-blue-500 hover:bg-blue-600 disabled:bg-blue-500/50 disabled:cursor-not-allowed text-white rounded-lg font-medium transition-colors"
+              className="flex-1 py-2.5 bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 disabled:from-purple-500/50 disabled:to-blue-500/50 disabled:cursor-not-allowed text-white rounded-xl font-semibold transition-all"
             >
               {isSubmitting ? 'Saving...' : editingEntry ? 'Update' : 'Add'}
             </button>

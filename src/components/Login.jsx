@@ -3,6 +3,7 @@ import { Lock, Eye, EyeOff, AlertCircle, CheckCircle2 } from 'lucide-react';
 import { validateMasterPassword } from '../utils/encryption';
 import { usePasswordManager } from '../context/PasswordManagerContext';
 import { useToast } from '../context/ToastContext';
+import { PassKeyLogoText } from './PassKeyLogo';
 
 export const Login = ({ isFirstTime = true }) => {
   const [password, setPassword] = useState('');
@@ -37,17 +38,22 @@ export const Login = ({ isFirstTime = true }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center p-4">
-      <div className="w-full max-w-md">
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950 to-slate-900 flex items-center justify-center p-4 relative overflow-hidden">
+      {/* Background decorative elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-bl from-purple-500/20 to-transparent rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-gradient-to-tr from-blue-500/20 to-transparent rounded-full blur-3xl"></div>
+      </div>
+
+      <div className="w-full max-w-md relative z-10">
         {/* Glass card */}
-        <div className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl p-8 shadow-2xl">
+        <div className="backdrop-blur-xl bg-white/10 border border-white/20 rounded-3xl p-8 shadow-2xl hover:border-white/30 transition-all">
           {/* Header */}
           <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-blue-400 to-purple-600 mb-4">
-              <Lock className="w-8 h-8 text-white" />
+            <div className="inline-block mb-6">
+              <PassKeyLogoText size="md" showText={true} />
             </div>
-            <h1 className="text-3xl font-bold text-white mb-2">VaultKey</h1>
-            <p className="text-gray-300 text-sm">
+            <p className="text-gray-300 text-sm mt-4">
               {isFirstTime ? 'Create your master password' : 'Enter your master password'}
             </p>
           </div>
