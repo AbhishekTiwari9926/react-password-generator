@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Login } from './components/Login';
 import { Dashboard } from './components/Dashboard';
 import { usePasswordManager } from './context/PasswordManagerContext';
+import { usePricing } from './context/PricingContext';
 
 function App() {
   const { isAuthenticated, updateLastActivity } = usePasswordManager();

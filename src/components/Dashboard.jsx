@@ -11,10 +11,13 @@ import {
 } from 'lucide-react';
 import { usePasswordManager } from '../context/PasswordManagerContext';
 import { useToast } from '../context/ToastContext';
+import { usePricing } from '../context/PricingContext';
 import { PasswordCard } from './PasswordCard';
 import { PasswordModal } from './PasswordModal';
 import { PasswordGenerator } from './PasswordGenerator';
 import { SettingsPanel } from './SettingsPanel';
+import { PricingSection } from './PricingSection';
+import { UpgradeModal } from './UpgradeModal';
 import { detectDuplicatePasswords } from '../utils/encryption';
 import { PassKeyLogoText } from './PassKeyLogo';
 
@@ -39,6 +42,14 @@ export const Dashboard = () => {
     lastActivityTime,
     autoLockTime,
   } = usePasswordManager();
+
+  const {
+    canAddPassword,
+    incrementPasswordCount,
+    getRemainingPasswords,
+    setShowUpgradeModal,
+    showUpgradeModal,
+  } = usePricing();
 
   const [showModal, setShowModal] = useState(false);
   const [editingEntry, setEditingEntry] = useState(null);
@@ -100,11 +111,18 @@ export const Dashboard = () => {
   }, [passwords, getDecryptedPassword]);
 
   const handleAddPassword = (formData) => {
+    if (!canAddPassword() && !editingEntry) {
+      setShowUpgradeModal(true);
+      addToast(`Free plan limit reached. ${getRemainingPasswords()} passwords remaining today.`, 'warning');
+      return;
+    }
+
     if (editingEntry) {
       updatePassword(editingEntry.id, formData);
       addToast('Password updated successfully', 'success');
     } else {
       addPassword(formData);
+      incrementPasswordCount();
       addToast('Password added successfully', 'success');
     }
     setShowModal(false);
@@ -202,6 +220,11 @@ export const Dashboard = () => {
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {/* Sidebar */}
           <aside className="lg:col-span-1">
+            {/* Pricing Section */}
+            <div className="mb-6">
+              <PricingSection />
+            </div>
+
             {/* Generator */}
             {showGenerator && (
               <div className="bg-gradient-to-br from-white/5 to-white/[0.02] border border-white/10 rounded-2xl p-6 mb-6 sticky top-24 backdrop-blur-sm hover:border-white/20 transition-colors">
@@ -345,6 +368,12 @@ export const Dashboard = () => {
       />
 
       <SettingsPanel isOpen={showSettings} onClose={() => setShowSettings(false)} />
+
+      <UpgradeModal
+        isOpen={showUpgradeModal}
+        onClose={() => setShowUpgradeModal(false)}
+        remainingPasswords={getRemainingPasswords()}
+      />
     </div>
   );
 };
